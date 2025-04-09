@@ -2,126 +2,214 @@
 #include <string.h>
 
 int main (int argc, char *argv[]) {
-
-    char id[5][10];
-    char nombre[5][30];
-    int stock[5];
-    float precio[5];
-    int cont = 0, opc1, len;
-    float total_ganancias = 0, venta = 0;
+    float notas[5][3];
+    float promedio[5];
+    float promedioa[3];
+    float cALTAes=0;
+    float cALTAasig=0;
+    float cBAJAes=10;
+    float cBAJAasig=10;
+    float abrobar=0;
+    float altaEstudiante[5], bajaEstudiante[5];
+    float altaAsignatura[3], bajaAsignatura[3];
+    int aprobadosPorAsignatura[3] = {0, 0, 0};
+    int reprobadosPorAsignatura[3] = {0, 0, 0};
+    int opc=0;
+    int opc2=0;
+    char estudiantes[5][30];
+    char asig[3][30];
+    int cont=0;
+    int cont2=0;
+    
 
     do{
-        printf("Seleccione una opcion:\n");
-        printf("1. Registrar producto\n");
-        printf("2. Vender producto\n");
-        printf("3. Reabastecer producto\n");
-        printf("4. Ver detalle producto\n");
-        printf("5. Ver total de ganancias\n");
-        printf("6. Salir\n");
-        printf(">> ");
-        scanf("%d",&opc1);
-        switch (opc1)
-        {
-        case 1:
-            if (cont < 5)
-            {
-                printf("Ingrese el ID del producto %d: ", cont);
-                scanf("%s", &id[cont]);
-                printf("Ingrese el nombre del producto %d: ", cont);
-                fflush(stdin);
-                fgets(nombre[cont], 30, stdin);
-
-                len = strlen(nombre[cont]) - 1;
-                nombre[cont][len]='\0';
-
-                printf("Ingrese el stock del producto %d: ", cont);
-                scanf("%d", &stock[cont]);
-                printf("Ingrese el precio del producto %d: ", cont);
-                scanf("%f", &precio[cont]);
-                cont++;
-            }else{
-                printf("No se puede ingresar mas productos\n");
-            }
-            break;
-        case 2:
-            int aux, cantidad;
-            printf("Seleccione el numero producto a vender: \n");
-            printf("#\t\tID\t\tNombre\t\tStock\t\tPrecio\n");
-            for (int i = 0; i < cont; i++)
-            {
-                printf("%d\t\t%s\t\t%s\t\t%d\t\t%.2f\n",i,id[i],nombre[i],stock[i],precio[i]);
-            }
-            printf(">> ");
-            scanf("%d",&aux);
-            printf("Ingrese la cantidad del producto %s a vender: ",id[aux]);
-            scanf("%d",&cantidad);
-            if (cantidad <= stock[aux])
-            {
-                venta = cantidad * precio[aux];
-                printf("El valor de la venta es: %f\n",venta);
-                stock[aux] -= cantidad;
-                if (cantidad > 20)
+        printf("Ingrese un opcion: \n");
+        printf("1. Ingresar estudiantes: \n");
+        printf("2. Ingrese la asignaturas: \n");
+        printf("3. Ingresar notas: \n");
+        printf("4.Mostrar promedios: \n");
+        printf("5.Mostrar notas: \n");
+        printf("6.Salir\n");
+        scanf("%d",&opc);
+    
+        switch (opc){
+            case 1:
+                
+                do
                 {
-                    venta*=0.9;
-                    printf("Se aplica descuento del 10 porciento por venta superior a 20 unidades\n");
-                    printf("El valor de la venta con descuento es: %f\n",venta);
-                }
-                total_ganancias+=venta;
-            }else{
-                printf("No existe stock suficiente para esta venta\n");
-            }
-            break;
-        case 3:
-      
-            printf("Seleccione el numero producto a reabastecer: \n");
-            printf("#\t\tID\t\tNombre\t\tStock\t\tPrecio\n");
-            for (int i = 0; i < cont; i++)
-            {
-                printf("%d\t\t%s\t\t%s\t\t%d\t\t%.2f\n", i, id[i], nombre[i], stock[i], precio[i]);
-            }
-            printf(">> ");
-            scanf("%d", &aux);
-            printf("Ingrese la cantidad del producto %s a reabastecer: ", id[aux]);
-            scanf("%d", &cantidad);
-            if (cantidad > 0)
-            {
-                stock[aux]+=cantidad;
-                printf("El nuevo stock del producto es %d\n",stock[aux]);
-            }
+                    printf("Ingrese el nombre del estudiante: \n");
+                    fflush(stdin);
+                    scanf("%s",&estudiantes[cont][30]);
+                    cont++;
+                    printf("Desea ingresar otro estudiante? (1: Si, 2: No): \n");
+                    scanf("%d",&opc2);
+                    if (opc2!=1 && opc2!=2){
+                        printf("Opcion invalida. Ingrese nuevamente: \n");
+                    }
+                    if (cont>=5){
+                        printf("Limite de estudiantes alcanzado.\n");
+                        opc2=2;
+                    }
+                } while (opc2==1);
+                
         
-            break;
-        case 4:
-            char nombuscar[30];
-            int f=0;
-            printf("Ingrese el nombre del producto a ver el detalle: ");
-            fflush(stdin);
-            fgets(nombuscar,30,stdin);
+                break;
 
-            len = strlen(nombuscar) - 1;
-            nombuscar[len] = '\0';
+            case 2:
+                opc2=1;
+                cont2=0;    
+                do{
+                    printf("Ingrese el nombre de la asignatura: \n");
+                    fflush(stdin);
+                    scanf("%s",&asig[cont2][30]);
+                    cont2++;
+                    printf("Desea ingresar otra asignatura? (1: Si, 2: No): \n");
+                    scanf("%d",&opc2);
+                    if (opc2!=1 && opc2!=2){
+                        printf("Opcion invalida. Ingrese nuevamente: \n");
+                    }
+                    if (cont2>=3){
+                        printf("Limite de asignaturas alcanzado.\n");
+                        opc2=2;
+                    }
+                }while(opc2==1);
+                break;
+            case 3:
+                printf("Ingrese las notas de los alumnos:\n");
+                for (int i = 1; i <= cont; i++) {
+                    
+                    printf("Estudiante:%s\n",estudiantes[i]);
+                    altaEstudiante[i] = 0;
+                    bajaEstudiante[i] = 10;
+                    for (int j = 1; j <= cont2; j++) {
+                        printf("Nota %s: ",asig[j]);
+                        fflush(stdin);
+                        scanf("%f", &notas[i][j]);
+                        if (notas[i][j] < 0 || notas[i][j] > 10) {
+                            printf("Nota invalida. Ingrese nuevamente: ");
+                            j--;
+                        } else {
+                            if (notas[i][j] > altaEstudiante[i]) {
+                                altaEstudiante[i] = notas[i][j];
+                            }
+                            if (notas[i][j] < bajaEstudiante[i]) {
+                                bajaEstudiante[i] = notas[i][j];
+                            }
+                            if (notas[i][j] >= 6) {
+                                aprobadosPorAsignatura[j]++;
+                            } else {
+                                reprobadosPorAsignatura[j]++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
 
-            for (int i = 0; i < cont; i++)
-            {
-                if(strcmp(nombre[i],nombuscar)==0){
-                    printf("#\t\tID\t\tNombre\t\tStock\t\tPrecio\n");
-                    printf("%d\t\t%s\t\t%s\t\t%d\t\t%.2f\n", i, id[i], nombre[i], stock[i], precio[i]);  
-                    f=1;
+            defualt:
+                break;
+
+
+        }
+    }while(opc!=6);
+
+    printf("Ingrese las notas de los alumnos:\n");
+    for (int i = 0; i < 5; i++) {
+        printf("Alumno %d: \n", i + 1);
+        altaEstudiante[i] = 0;
+        bajaEstudiante[i] = 10;
+        for (int j = 0; j < 3; j++) {
+            printf("Nota %d: ", j + 1);
+            scanf("%f", &notas[i][j]);
+            if (notas[i][j] < 0 || notas[i][j] > 10) {
+                printf("Nota invalida. Ingrese nuevamente: ");
+                j--;
+            } else {
+                if (notas[i][j] > altaEstudiante[i]) {
+                    altaEstudiante[i] = notas[i][j];
+                }
+                if (notas[i][j] < bajaEstudiante[i]) {
+                    bajaEstudiante[i] = notas[i][j];
+                }
+                if (notas[i][j] >= 6) {
+                    aprobadosPorAsignatura[j]++;
+                } else {
+                    reprobadosPorAsignatura[j]++;
                 }
             }
-            if (f==0)
-            {
-                printf("No existe ningun producto con el nombre ingresado\n");
-            }
-                       
-
-            break;
-        default:
-            break;
         }
+    }
 
+    printf("Promedios de los alumnos:\n");
+    for (int i = 0; i < 5; i++) {
+        promedio[i] = (notas[i][0] + notas[i][1] + notas[i][2]) / 3;
+        printf("Alumno %d: %.2f\n", i + 1, promedio[i]);
+        if (promedio[i] > cALTAes) {
+            cALTAes = promedio[i];
+        }
+        if (promedio[i] < cBAJAes) {
+            cBAJAes = promedio[i];
+        }
+    }
 
-    }while(opc1 != 6);
+    printf("Promedios de las asignaturas:\n");
+    for (int j = 0; j < 3; j++) {
+        promedioa[j] = 0;
+        altaAsignatura[j] = 0;
+        bajaAsignatura[j] = 10;
+        for (int i = 0; i < 5; i++) {
+            promedioa[j] += notas[i][j];
+            if (notas[i][j] > altaAsignatura[j]) {
+                altaAsignatura[j] = notas[i][j];
+            }
+            if (notas[i][j] < bajaAsignatura[j]) {
+                bajaAsignatura[j] = notas[i][j];
+            }
+        }
+        promedioa[j] /= 5;
+        printf("Asignatura %d: %.2f\n", j + 1, promedioa[j]);
+    }
 
+    printf("Promedio mas alto de los alumnos: %.2f\n", cALTAes);
+    printf("Promedio mas bajo de los alumnos: %.2f\n", cBAJAes);
+    printf("Promedio mas alto de las asignaturas: %.2f\n", cALTAasig);
+    printf("Promedio mas bajo de las asignaturas: %.2f\n", cBAJAasig);
+
+    printf("Calificacion mas alta y baja por estudiante:\n");
+    for (int i = 0; i < 5; i++) {
+        printf("Alumno %d: Alta = %.2f, Baja = %.2f\n", i + 1, altaEstudiante[i], bajaEstudiante[i]);
+    }
+
+    printf("Calificacion mas alta y baja por asignatura:\n");
+    for (int j = 0; j < 3; j++) {
+        printf("Asignatura %d: Alta = %.2f, Baja = %.2f\n", j + 1, altaAsignatura[j], bajaAsignatura[j]);
+    }
+
+    printf("Alumnos aprobados: \n");
+    for (int i = 0; i < 5; i++) {
+        if (promedio[i] >= 6) {
+            printf("Alumno %d: %.2f\n", i + 1, promedio[i]);
+        } else {
+            abrobar++;
+        }
+    }
+
+    printf("Alumnos reprobados: \n");   
+    for (int i = 0; i < 5; i++) {
+        if (promedio[i] < 6) {
+            printf("Alumno %d: %.2f\n", i + 1, promedio[i]);
+        }
+    }
+
+    printf("Estudiantes aprobados y reprobados por asignatura:\n");
+    for (int j = 0; j < 3; j++) {
+        printf("Asignatura %d: Aprobados = %d, Reprobados = %d\n", j + 1, aprobadosPorAsignatura[j], reprobadosPorAsignatura[j]);
+    }
 
     return 0;
 }
